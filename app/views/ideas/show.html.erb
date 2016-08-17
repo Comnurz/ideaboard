@@ -1,0 +1,31 @@
+Display Idea<br /><br />
+
+<b>ID:  </b><%= @idea.id %><br />
+<b>Title:  </b><%= @idea.title %><br />
+<b>Description:  </b><%= @idea.description %><br />
+<b>Category: </b><%= @idea.category.title %><br /><br />
+<b>User: </b><%= @idea.user.email %> | <%= @idea.user.id %><br />
+<b>Average Rating: </b><%= @idea.average_rating %><br />
+<b>Tags: </b><%= @idea.tags.collect {|x| x.name }.join(", ")
+ %><br />
+
+<br /><br /><br />
+
+<%= render 'votes/form' %>
+
+<% @idea.voters.each do |u| %>
+  <%= u.email %><br />
+<% end %>
+
+<%= render 'comments/comment_list' %>
+<%= render 'comments/form' %>
+
+<br/><br/>
+<%= link_to "Back to idea list", ideas_path %>
+
+<% if current_user.present? and current_user.id == @idea.user_id %>
+  <br/>
+  <%= link_to "Edit idea", edit_idea_path(@idea) %>
+  <br/>
+  <%= link_to "Sil", idea_path(@idea), method: :delete %>
+<% end %>
